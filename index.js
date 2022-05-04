@@ -1,4 +1,4 @@
-const { MongoClient, ServerApiVersion } = require('mongodb');
+const { MongoClient, ServerApiVersion, ObjectId } = require('mongodb');
 const express = require('express');
 const cors = require('cors');
 const res = require('express/lib/response');
@@ -19,6 +19,7 @@ async function run(){
 try{
  await client.connect()
  const carCollection = client.db("carwarehouse").collection("carcollection");
+
 app.get('/carcollection',async(req,res)=>{
     const query ={}
     const cursor = carCollection.find(query)
@@ -26,6 +27,14 @@ app.get('/carcollection',async(req,res)=>{
     res.send(car)
 })
  
+app.delete('/carcollection/:id',async(req,res)=>{
+    const id=req.params.id
+    const query={_id:ObjectId(id)}
+    
+    const result = await carCollection.deleteOne(query)
+    res.send(result)
+})
+
 }
 finally{
 
