@@ -27,6 +27,7 @@ app.get('/carcollection',async(req,res)=>{
     res.send(car)
 })
  
+
 app.delete('/carcollection/:id',async(req,res)=>{
     const id=req.params.id
     const query={_id:ObjectId(id)}
@@ -34,7 +35,17 @@ app.delete('/carcollection/:id',async(req,res)=>{
     const result = await carCollection.deleteOne(query)
     res.send(result)
 })
-
+app.get("/carcollection/:id", async (req, res) => {
+  const id = req.params.id;
+  const query = { _id: ObjectId(id) };
+  const result = await carCollection.findOne(query);
+  res.send(result);
+});
+app.post("/carcollection", async (req, res) => {
+  const newUser = req.body;
+  const result = await carCollection.insertOne(newUser);
+  res.send(result);
+});
 }
 finally{
 
